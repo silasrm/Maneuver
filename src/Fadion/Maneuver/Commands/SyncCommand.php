@@ -6,7 +6,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Fadion\Maneuver\Maneuver;
 use Exception;
 
-class SyncCommand extends Command {
+class SyncCommand extends Command
+{
 
     /**
      * The console command name.
@@ -40,17 +41,17 @@ class SyncCommand extends Command {
     public function handle()
     {
         try {
-            $options = array(
+            $options = [
                 'server' => $this->option('server'),
                 'repo' => $this->option('repo'),
-                'sync' => $this->option('commit')
-            );
+                'sync' => $this->option('commit'),
+                'withForcedFiles' => $this->option('with-forced-files'),
+            ];
 
             $maneuver = new Maneuver($options);
             $maneuver->mode(Maneuver::MODE_SYNC);
             $maneuver->start();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->error($e->getMessage());
         }
     }
@@ -62,7 +63,7 @@ class SyncCommand extends Command {
      */
     protected function getArguments()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -72,11 +73,12 @@ class SyncCommand extends Command {
      */
     protected function getOptions()
     {
-        return array(
-            array('server', 's', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Server to deploy to.', null),
-            array('repo', 'r', InputOption::VALUE_OPTIONAL, 'Repository to use.', null),
-            array('commit', 'c', InputOption::VALUE_OPTIONAL, 'Commit to sync to.', null)
-        );
+        return [
+            ['server', 's', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Server to deploy to.', null],
+            ['repo', 'r', InputOption::VALUE_OPTIONAL, 'Repository to use.', null],
+            ['commit', 'c', InputOption::VALUE_OPTIONAL, 'Commit to sync to.', null],
+            ['with-forced-files', 'f', InputOption::VALUE_OPTIONAL, 'Add forced files/folders list to upload list.', null],
+        ];
     }
 
 }

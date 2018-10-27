@@ -6,7 +6,8 @@ use Exception;
 /**
  * Class Maneuver
  */
-class Maneuver {
+class Maneuver
+{
 
     /**
      * @var null|string $optServer
@@ -63,11 +64,11 @@ class Maneuver {
      *
      * @param array $options
      */
-    public function __construct(Array $options = array())
+    public function __construct(Array $options = [])
     {
         // Merge options with a set of null defaults,
         // so parameters can be omitted safely.
-        $defaults = array('server' => null, 'repo' => null, 'rollback' => null, 'sync' => null, 'withForcedFiles' => false);
+        $defaults = ['server' => null, 'repo' => null, 'rollback' => null, 'sync' => null, 'withForcedFiles' => false];
         $options = array_merge($defaults, $options);
 
         $this->optServer = $options['server'];
@@ -116,8 +117,7 @@ class Maneuver {
                 // Connect to the server using the selected
                 // scheme and options.
                 $bridge = new Bridge(http_build_url('', $credentials), $options);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 print "Oh snap: {$e->getMessage()}";
                 continue;
             }
@@ -170,8 +170,7 @@ class Maneuver {
                     // Write latest revision to server.
                     $deploy->writeRevision();
                 }
-            }
-            else {
+            } else {
                 print "\n» Nothing to do.";
             }
 
@@ -189,6 +188,7 @@ class Maneuver {
      *
      * @param \Fadion\Maneuver\Deploy $deploy
      * @return bool
+     * @throws Exception
      */
     public function push($deploy)
     {
